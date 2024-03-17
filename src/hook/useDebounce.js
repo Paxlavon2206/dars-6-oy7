@@ -16,4 +16,3 @@ export default function useDebounce(value, delay = 500) {
   return debouncedValue;
 }
 
-const defferedInputValue = useDebounce(inputValue, 600);
