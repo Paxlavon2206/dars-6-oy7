@@ -9,13 +9,14 @@ import { useGetTodos2 } from "../../service/query/useGetTodos2";
 
 export const Homework = () => {
   const [input, setInput] = React.useState("");
-  const [page, setPage]= React.useState(1)
+  const [page, setPage] = React.useState(1);
   const value = useDebounce(input);
-  const {data:paginationData} = useGetTodos2(page);
-  const { data:searchData, isLoading } = useGetTodos(value);
-  const buttons = Math.ceil(Number(paginationData?.dataSize)/Number(paginationData?.limit));
+  const { data: paginationData } = useGetTodos2(page);
+  const { data: searchData, isLoading } = useGetTodos(value);
+  const buttons = Math.ceil(
+    Number(paginationData?.dataSize) / Number(paginationData?.limit)
+  );
 
-  
   return (
     <div className=" bg-blue-100">
       <div className="container pt-[20px] pb-[20px]">
@@ -39,25 +40,33 @@ export const Homework = () => {
           </div>
         </div>
         <div className="mb-4">
-        {Array(buttons ? buttons : 0).fill(null).map((_,i) => 
-        <button key={i} onClick={()=> setPage(i+1)} className={`px-3 ${page === i+1 ? " bg-purple-500" : " bg-blue-400"}`}>{i+1}</button>
-        )}
+          {Array(buttons ? buttons : 0)
+            .fill(null)
+            .map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setPage(i + 1)}
+                className={`px-3 ${
+                  page === i + 1 ? " bg-purple-500" : " bg-blue-400"
+                }`}
+              >
+                {i + 1}
+              </button>
+            ))}
         </div>
         {isLoading ? (
           <Skeleton count={30} />
         ) : (
           <div className="just gap-3">
-            {input == '' ? paginationData?.data.map((item) => (
-                <Card 
-                key={item.id}
-                {...item}
-                />
-            )) : searchData?.map((item) => (
-                <Card 
-                key={item.id}
-                {...item}
-                />
-            )) }
+            {input === "" ? (
+              paginationData?.data.map((item) => (
+                <Card key={item.id} {...item} />
+              ))
+            ) : searchData && searchData.length > 0 ? (
+              searchData.map((item) => <Card key={item.id} {...item} />)
+            ) : (
+              <div className="text-gray-500">Not found similar data...</div>
+            )}
           </div>
         )}
       </div>
