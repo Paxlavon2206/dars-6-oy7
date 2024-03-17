@@ -12,7 +12,7 @@ export const Homework = () => {
   const { data, isLoading } = useGetTodos(value);
 
   return (
-    <div className=" bg-violet-100">
+    <div className=" bg-blue-100">
       <div className="container pt-[20px] pb-[20px]">
         <div className="flex mr-auto ml-auto mb-4 justify-between">
           <div className=" w-[200px]">
@@ -34,12 +34,14 @@ export const Homework = () => {
           </div>
         </div>
         {isLoading ? (
-          <Skeleton count={5} />
+          <Skeleton count={30} />
         ) : (
           <div className="just gap-3">
-            {data?.map((item) => (
-              <Card key={item.id} {...item} />
-            ))}
+            {data && data.length > 0 ? (
+              data.map((item) => <Card key={item.id} {...item} />)
+            ) : (
+              <div className="text-gray-500">Not found similar data...</div>
+            )}
           </div>
         )}
       </div>

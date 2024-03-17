@@ -6,7 +6,7 @@ export const useGetTodos = (value) => {
   return useQuery ({
     queryKey:[ "todos", value ],
     queryFn:()=>
-      request.get("/todos", {params:{ title_like: value }}).then((res)=> res.data)
+        request.get("/todos", {params:{ title_like: value}}).then((res)=> res.data)
     
   })
 }
