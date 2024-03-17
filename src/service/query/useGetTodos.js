@@ -2,11 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import {request} from "../../config/request";
 
 
-export const useGetTodos = (id) => {
+export const useGetTodos = (value) => {
   return useQuery ({
-    queryKey:[ "todos", id ],
-    queryFn:()=>{
-      return  request.get("/todos").then((res)=> res.data)
-    },
+    queryKey:[ "todos", value ],
+    queryFn:()=>
+      request.get("/todos", {params:{ title_like: value }}).then((res)=> res.data)
+    
   })
 }
