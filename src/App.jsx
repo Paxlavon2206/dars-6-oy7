@@ -1,34 +1,24 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Card } from "./components/card"
+import { useGetTodos } from "./service/query/useGetTodos"
+import React from "react"
+import useDebounce from "./hook/useDebounce"
+
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
+const [input, setInput] = React.useState('')
+const value = useDebounce(input)
+const {data, isLoading } = useGetTodos(value)
+console.log(value);
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="container">
+      <div className=" w-[800px] mr-auto ml-auto mb-4">
+        <input className="w-[800px] outline-none border-2 border-violet-300 px-6 py-2" onChange={(e)=> setInput(e.target.value)} value={input} placeholder="Search..." type="text" />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className="just gap-3">
+      {data?.map((item)=> <Card key={item.id} {...item}/>)}
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
