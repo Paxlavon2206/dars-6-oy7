@@ -10,7 +10,7 @@ export const useGetTodos2 = (page = 1) => {
         {
           return {
             limit: res.config.params._limit,
-            data2:res.data,
+            data:res.data,
             dataSize: res.headers.get("X-Total-Count"),
         };
         }

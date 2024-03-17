@@ -5,12 +5,15 @@ import useDebounce from "../../hook/useDebounce";
 import Pakhlavon_logo from "/hercules_logo.png";
 import search from "/research.png";
 import Skeleton from "react-loading-skeleton";
-import { Pagination } from "../pagination/pagination";
+import { useGetTodos2 } from "../../service/query/useGetTodos2";
 
 export const Homework = () => {
   const [input, setInput] = React.useState("");
+  const [page, setPage]= React.useState(1)
   const value = useDebounce(input);
-  const { data, isLoading } = useGetTodos(value);
+  const {data:paginationData} = useGetTodos2(page);
+  const { data:searchData, isLoading } = useGetTodos(value);
+  const buttons = Math.ceil(Number(paginationData?.dataSize)/Number(paginationData?.limit));
 
   
   return (
@@ -36,17 +39,25 @@ export const Homework = () => {
           </div>
         </div>
         <div className="mb-4">
-        <Pagination/>
+        {Array(buttons ? buttons : 0).fill(null).map((_,i) => 
+        <button key={i} onClick={()=> setPage(i+1)} className={`px-3 ${page === i+1 ? " bg-purple-500" : " bg-blue-400"}`}>{i+1}</button>
+        )}
         </div>
         {isLoading ? (
           <Skeleton count={30} />
         ) : (
           <div className="just gap-3">
-            {data && data.length > 0 ? (
-              data.map((item) => <Card key={item.id} {...item} />)
-            ) : (
-              <div className="text-gray-500">Not found similar data...</div>
-            )}
+            {input == '' ? paginationData?.data.map((item) => (
+                <Card 
+                key={item.id}
+                {...item}
+                />
+            )) : searchData?.map((item) => (
+                <Card 
+                key={item.id}
+                {...item}
+                />
+            )) }
           </div>
         )}
       </div>
