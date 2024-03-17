@@ -1,6 +1,6 @@
 import React from 'react'
 import { Card } from '../../components/card'
-import { useGetTodos } from "./service/query/useGetTodos"
+import {useGetTodos} from "../../service/query/useGetTodos"
 import useDebounce from "../../hook/useDebounce"
 import Pakhlavon_logo from "/hercules_logo.png"
 import search from "/research.png"
@@ -13,7 +13,8 @@ const value = useDebounce(input)
 const {data, isLoading } = useGetTodos(value)
 
   return (
-    <div className="container">
+   <div className=' bg-violet-100'>
+     <div className="container pt-[20px] pb-[20px]">
     <div className="flex mr-auto ml-auto mb-4 justify-between">
       <div className=" w-[200px]">
         <a href="/">
@@ -29,5 +30,6 @@ const {data, isLoading } = useGetTodos(value)
     {data?.map((item)=> <Card key={item.id} {...item}/>)}
     </div>}
   </div>
+   </div>
   )
 }
