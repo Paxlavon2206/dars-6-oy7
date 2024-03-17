@@ -5,13 +5,14 @@ import useDebounce from "../../hook/useDebounce";
 import Pakhlavon_logo from "/hercules_logo.png";
 import search from "/research.png";
 import Skeleton from "react-loading-skeleton";
-import { Link } from "react-router-dom";
+import { Pagination } from "../pagination/pagination";
 
 export const Homework = () => {
   const [input, setInput] = React.useState("");
   const value = useDebounce(input);
   const { data, isLoading } = useGetTodos(value);
 
+  
   return (
     <div className=" bg-blue-100">
       <div className="container pt-[20px] pb-[20px]">
@@ -33,6 +34,9 @@ export const Homework = () => {
               <img src={search} alt="icon" />
             </button>
           </div>
+        </div>
+        <div className="mb-4">
+        <Pagination/>
         </div>
         {isLoading ? (
           <Skeleton count={30} />
